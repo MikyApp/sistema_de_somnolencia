@@ -1,0 +1,33 @@
+# 1. Instalara librerias
+!pip install roboflow ultralytics
+
+# 2. Descargar el dataset de roboflow
+from roboflow import Roboflow
+
+rf = Roboflow(api_key="HKOSagd8b7b2VYzGgE98")
+project = rf.workspace("mik-jhpv0").project("deteccion_somnolencia")
+version = project.version(1)
+dataset = version.download("yolov11")
+
+# 3. Cargar el modelo base YOLOv11
+from ultralytics import YOLO
+model = YOLO("yolo11s.pt")
+
+# 4. Entrenamiento del modelo personalizado
+data_path = "/content/deteccion_somnolencia-2/data.yaml"
+results = model.train(data=data_path,
+                      epochs = 100,
+                      imgsz = 640
+			
+                      )
+
+
+# 5. Hacer predicciones
+#Cargamos el mejor modelo entrenado
+custom_model = YOLO("/content/runs/detect/train/weights/best.pt")
+
+#Realizamos predicciones sobre algunas imágenes
+res = custom_model("/content/deteccion_somnolencia-2/test/images")
+
+#Visualizar en images
+res[51].show()
