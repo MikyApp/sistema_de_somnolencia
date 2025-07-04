@@ -6,7 +6,7 @@ from roboflow import Roboflow
 
 rf = Roboflow(api_key="HKOSagd8b7b2VYzGgE98")
 project = rf.workspace("mik-jhpv0").project("deteccion_somnolencia")
-version = project.version(1)
+version = project.version(2)
 dataset = version.download("yolov11")
 
 # 3. Cargar el modelo base YOLOv11
